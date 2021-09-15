@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+<script>
+    $(document).ready(function () {
+
+        showReservation();
+    });
+  function showReservation () {
+          $('#reservations-box').empty();
+           $.ajax({
+                    type: "GET",
+                    url: "/reservation",
+                    data: {},
+                    success: function (response) {
+                        let reviews = response['all_reservation']
+                        for (let i = 0; i < reviews.length; i++) {
+                            let person = reviews[i]['person']
+                            let checkIn = reviews[i]['checkIn']
+                            let checkOut = reviews[i]['checkOut']
+                            let room = reviews[i]['room']
+                            let id = reviews[i]['id']
+
+
+                            let temp_html = `<tr>
+      <th scope="row">${i+1}</th>
+      <td>호텔이름 데이터</td>
+       <td>${person}</td>
+      <td>${room}</td>
+      <td>${checkIn}</td>
+      <td>${checkOut}</td>
+      <td>${id}</td>
+    </tr>`
+                            $('#reservations-box').append(temp_html)
+                        }
+                    }
+                })
+       }
+</script>
+  <style>
+     body {
+            display: grid;
+            grid-template-columns: 100%;
+            grid-template-rows: 100px 200px 450px;
+        }
+     .nav{
+           border-bottom: 1px solid;
+            font-size:60px;
+           display: flex;
+            justify-content: center;
+            align-items:center;
+     }
+     .main{
+       font-size:60px;
+           display: flex;
+            justify-content: center;
+            align-items:center;
+}
+
+  </style>
+
+
+
+</head>
+<body>
+<div class="nav" onclick="location.href='/'">
+사이트 제목
+</div>
+<div class="main" >
+    00님의 예약정보
+</div>
+<div >
+    <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">호텔</th>
+        <th scope="col">예약자명</th>
+      <th scope="col">강아지 수</th>
+      <th scope="col">체크인</th>
+      <th scope="col">체크아웃</th>
+      <th scope="col">견종명</th>
+    </tr>
+  </thead>
+  <tbody id="reservations-box">
+    <tr>
+      <th scope="row">1</th>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+      <td>@mdo</td>
+      <td>@mdo</td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>Jacob</td>
+      <td>Thornton</td>
+      <td>@fat</td>
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+      <td colspan="2">Larry the Bird</td>
+      <td>@twitter</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</body>
+</html>

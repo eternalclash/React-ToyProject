@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>reservation</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+
+        }
+        body {
+            display: grid;
+            grid-template-columns: 30% 70%;
+            grid-template-rows: 100px 450px 450px;
+        }
+        .nav{
+
+           font-size:60px;
+           display: flex;
+            justify-content: center;
+            align-items:center;
+            grid-column-start:1;
+            grid-column-end:3;
+        }
+.main_1{ display:grid;
+
+    grid-template-rows: 60px 60px 60px 40px 40px 30px 30px;
+
+    grid-row-start:2;
+    grid-row-end:4;
+    justify-content: center;
+    border: 1px solid;
+    padding: 0;
+}
+.main_1:nth-child(n){
+padding-top:150px;
+}
+.main_2{
+    background-image: url("/static/hotel1.jpg");
+    background-size:cover;
+}
+.main_3{
+ display: grid;
+    justify-content: center;
+
+}
+.main_3 .title_3{
+    font-size:40px;
+    padding-top:30px;
+}
+.main_3 .content_3{
+    font-size:20px;
+
+}
+    </style>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+                integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+                crossorigin="anonymous"></script>
+
+
+    <script>
+       function getReady() {
+           let person = $('#person').val();
+           let checkIn = $('#checkIn').val(); //checkIn 읽어오기
+           let checkOut = $('#checkOut').val(); //checkOut 읽어오기
+           let room = $('#roomName').val(); //방이름 읽어오기
+           let id = $('#id').val();
+           const keys = {
+               "예약자명": person,
+               "체크인": checkIn,
+               "체크아웃": checkOut,
+               "강아지수": room,
+               "견종": id
+           }
+           if (person && checkIn && checkOut && room && id){
+
+                $.ajax({
+                    type: "POST",
+                    url: "/reservation",
+                    data: {person_give: person, checkIn_give:checkIn,checkOut_give:checkOut,room_give:room,id_give:id},
+                    success: function (response) {
+                           alert('예약 완료되었습니다!')
+
+                    }
+                })
+
+               location.href='/check'
+
+           }
+           else{
+               for(key in keys)
+               {
+                   if(keys[key]==0)
+                   {
+
+                   alert(`${key}이 적혀 있지 않습니다!`);
+                   }
+
+               }
+           }
+       }
+
+
+    </script>
+
+</head>
+<body>
+<div class="nav">
+사이트제목
+</div>
+
+<div class="main_1">
+    <div class="person">
+<span>예약자명</span><br/><input type="person" id="person">
+</div>
+<div class="com1"><span>체크인</span><br/><input type="date" id="checkIn"></div>
+<div><span>체크아웃</span><br/><input type="date" id="checkOut"></div>
+<div class="room">
+  <span>강아지 수</span>
+<select name="dogs" id="roomName" class="id">
+            <option value="">number</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    </select>
+</div>
+
+<div class="id">
+
+    <span>견종</span>
+
+<input type="text" placeholder="견종" id="id">
+
+</div>
+
+<button onclick="getReady()">완료!</button>
+
+<button onclick="location.href='/review' ">리뷰 남기기</button>
+
+<div id="reservations-box">
+
+</div>
+
+</div>
+<div class="main_2">
+
+</div>
+
+<div class="main_3">
+    <p class="title_3">강아지호텔</p>
+    <p class="content_3">호텔 설명</p>
+</div>
+
+</body>
+</html>
